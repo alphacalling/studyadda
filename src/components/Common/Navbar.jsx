@@ -12,7 +12,6 @@ import { apiConnector } from "../../services/apiConnector"
 import { categories } from "../../services/apis"
 import { ACCOUNT_TYPE } from "../../utils/constants"
 import ProfileDropdown from "../core/Auth/ProfileDropdown"
-import { RxCross2 } from "react-icons/rx";
 
 function Navbar() {
   const { token } = useSelector((state) => state.auth)
@@ -142,9 +141,10 @@ function Navbar() {
           )}
           {token !== null && <ProfileDropdown />}
         </div>
-        <button className="mr-4 md:hidden">
+
+        {/* <button className="mr-4 md:hidden">
           <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
-        </button>
+        </button> */}
       </div>
     </div>
   )
