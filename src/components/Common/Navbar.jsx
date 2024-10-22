@@ -3,6 +3,8 @@ import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai"
 import { BsChevronDown } from "react-icons/bs"
 import { useSelector } from "react-redux"
 import { Link, matchPath, useLocation } from "react-router-dom"
+import { RxCross2 } from "react-icons/rx";
+
 
 import logo from "../../assets/Logo/logo1.png"
 import { NavbarLinks } from "../../data/navbar-links"
@@ -21,8 +23,10 @@ function Navbar() {
   const [subLinks, setSubLinks] = useState([])
   const [loading, setLoading] = useState(false)
 
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
   useEffect(() => {
-    ; (async () => {
+    (async () => {
       setLoading(true)
       try {
         const res = await apiConnector("GET", categories.CATEGORIES_API)
@@ -140,9 +144,79 @@ function Navbar() {
           )}
           {token !== null && <ProfileDropdown />}
         </div>
-        <button className="mr-4 md:hidden">
+
+
+        {/* <button className="mr-4 md:hidden">
           <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
-        </button>
+        </button> */}
+
+        <section className="flex lg:hidden cursor-pointer">
+          <button onClick={() => setIsNavOpen((prev) => !prev)}>
+            <AiOutlineMenu fontSize={24} fill="#AFB2BF" /></button>
+
+          {/* check whether menu is open or not */}
+          <div className={isNavOpen ? "showMenuNav" : "hideMenuNav"}>
+            <div
+              className="absolute top-0 right-0 px-8 py-8"
+              onClick={() => setIsNavOpen(false)}
+            >
+              {/* cross icon  */}
+              <RxCross2 fontSize={24} />
+            </div>
+            <ul className="flex flex-col items-center justify-between min-h-[250px]">
+              <li className="border-b my-8 uppercase">
+                <Link to='/about' onClick={() => setIsNavOpen(false)}>About Us</Link>
+              </li>
+              <li className="border-b my-8 uppercase">
+                <Link to='/contact' onClick={() => setIsNavOpen(false)}>Contact Us</Link>
+              </li>
+              <li className="my-8 uppercase">
+                {token === null && (
+                  <Link to="/login" onClick={() => setIsNavOpen(false)}>
+                    <button className="rounded-[8px] border border-richblack-700 bg-richblack-800
+                     px-[12px] py-[8px] text-richblack-100">
+                      Log in
+                    </button>
+                  </Link>
+                )}
+              </li>
+              <li className="my-8 uppercase">
+                {token === null && (
+                  <Link to="/signup" onClick={() => setIsNavOpen(false)}>
+                    <button className="rounded-[8px] border border-richblack-700 bg-richblack-800
+                     px-[12px] py-[8px] text-richblack-100">
+                      Sign up
+                    </button>
+                  </Link>
+                )}
+                {token !== null && <ProfileDropdown />}
+              </li>
+            </ul>
+          </div>
+        </section>
+        <style>
+          {`
+            .hideMenuNav {
+              display: none;
+            }
+            .showMenuNav {
+              display: block;
+              position: absolute;
+              width: 100%;
+              height: 90vh;
+              top: 8%;
+              left: 0;
+              background: #0f172a;
+              color: gray;
+              z-index: 9999;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-evenly;
+              align-items: center;
+              border-radius: 10px;
+            }
+          `}
+        </style>
       </div>
     </div>
   )
