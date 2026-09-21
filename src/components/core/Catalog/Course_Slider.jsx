@@ -8,7 +8,7 @@ import "swiper/css/free-mode"
 import "swiper/css/pagination"
 
 // Import required modules
-import { FreeMode, Navigation, Pagination } from "swiper"
+import { FreeMode, Navigation, Pagination } from "swiper/modules"
 
 import Course_Card from "./Course_Card"
 
