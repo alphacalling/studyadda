@@ -10,12 +10,42 @@ const { convertSecondsToDuration } = require("../utils/secToDuration");
 // Profile Update
 exports.updateProfile = async (req, res) => {
   try {
-    const { dateOfBirth = "", about = "", contactNumber = "", gender = "" } = req.body;
+    const {
+      firstName = "",
+      lastName = "",
+      dateOfBirth = "",
+      about = "",
+      contactNumber = "",
+      gender = "",
+    } = req.body;
     const id = req.user.id;
 
-    // Find the profile by id
+    // Find the user details
     const userDetails = await User.findById(id);
-    const profile = await Profile.findById(userDetails.additionalDetails);
+    if (!userDetails) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Update user names if provided
+    if (firstName) userDetails.firstName = firstName;
+    if (lastName) userDetails.lastName = lastName;
+    await userDetails.save();
+
+    // Find or create the profile
+    let profile = await Profile.findById(userDetails.additionalDetails);
+    if (!profile) {
+      profile = await Profile.create({
+        gender: null,
+        dateOfBirth: null,
+        about: null,
+        contactNumber: null,
+      });
+      userDetails.additionalDetails = profile._id;
+      await userDetails.save();
+    }
 
     // Update the profile fields
     profile.dateOfBirth = dateOfBirth;
@@ -26,9 +56,15 @@ exports.updateProfile = async (req, res) => {
     // Save the updated profile
     await profile.save();
 
+    // Find the updated user details with populated profile
+    const updatedUserDetails = await User.findById(id)
+      .populate("additionalDetails")
+      .exec();
+
     return res.json({
       success: true,
       message: "Profile updated successfully",
+      updatedUserDetails,
       profile,
     });
   } catch (error) {

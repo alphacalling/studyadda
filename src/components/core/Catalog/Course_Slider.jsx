@@ -18,18 +18,23 @@ function Course_Slider({ Courses }) {
       {Courses?.length ? (
         <Swiper
           slidesPerView={1}
-          spaceBetween={200}
+          spaceBetween={16}
           pagination={true}
-          loop={true}
+          loop={Courses.length > 3}
           modules={[FreeMode, Pagination, Navigation]}
           autoplay={{
-            delay: 1000,
+            delay: 3000,
             disableOnInteraction: false,
           }}
           navigation={true}
           breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
             1024: {
               slidesPerView: 3,
+              spaceBetween: 25,
             },
           }}
           className="max-h-[30rem]"

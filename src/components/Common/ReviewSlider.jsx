@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import ReactStars from "react-rating-stars-component"
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react"
 
@@ -8,97 +7,123 @@ import "swiper/css"
 import "swiper/css/free-mode"
 import "swiper/css/pagination"
 import "../../App.css"
-// Icons
-import { FaStar } from "react-icons/fa"
 // Import required modules
 import { Autoplay, FreeMode, Pagination } from "swiper/modules"
 
 // Get apiFunction and the endpoint
 import { apiConnector } from "../../services/apiConnector"
 import { ratingsEndpoints } from "../../services/apis"
+import RatingStars from "./RatingStars"
 
 function ReviewSlider() {
   const [reviews, setReviews] = useState([])
   const truncateWords = 15
 
   useEffect(() => {
-    ; (async () => {
-      const { data } = await apiConnector(
-        "GET",
-        ratingsEndpoints.REVIEWS_DETAILS_API
-      )
-      if (data?.success) {
-        setReviews(data?.data)
+    ;(async () => {
+      try {
+        const { data } = await apiConnector(
+          "GET",
+          ratingsEndpoints.REVIEWS_DETAILS_API
+        )
+        if (data?.success) {
+          setReviews(data?.data || [])
+        }
+      } catch (error) {
+        console.error("Error fetching reviews:", error)
       }
     })()
   }, [])
 
-  // console.log(reviews)
-
   return (
-    <div className="text-white md:w-[1000px] sm:w-[500px]">
-      <div className="my-[50px] h-[184px] max-w-maxContentTab lg:max-w-maxContent rounded-xl">
-        <Swiper
-          slidesPerView={4}
-          spaceBetween={25}
-          loop={true}
-          freeMode={true}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
-          modules={[FreeMode, Pagination, Autoplay]}
-          className="w-full "
-        >
-          {reviews.map((review, i) => {
-            return (
-              <SwiperSlide key={i}>
-                <div className="flex flex-col gap-3 bg-richblack-800 p-3 text-[14px] h-[220px] text-richblack-25 rounded-md overflow-auto">
-                  <div className="flex items-center gap-4">
-                    <img
-                      src={
-                        review?.user?.image
-                          ? review?.user?.image
-                          : `https://api.dicebear.com/5.x/initials/svg?seed=${review?.user?.firstName} ${review?.user?.lastName}`
-                      }
-                      alt=""
-                      className="h-9 w-9 rounded-full object-cover"
-                    />
-                    <div className="flex flex-col">
-                      <h1 className="font-semibold text-richblack-5">{`${review?.user?.firstName} ${review?.user?.lastName}`}</h1>
-                      <h2 className="text-[12px] font-medium text-richblack-500">
-                        {review?.course?.courseName}
-                      </h2>
+    <div className="w-full text-white">
+      <div className="my-6 w-full max-w-maxContent mx-auto px-2 sm:px-4">
+        {reviews?.length > 0 ? (
+          <Swiper
+            slidesPerView={1}
+            spaceBetween={16}
+            breakpoints={{
+              480: {
+                slidesPerView: 1,
+                spaceBetween: 16,
+              },
+              640: {
+                slidesPerView: 1,
+                spaceBetween: 20,
+              },
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 24,
+              },
+              1280: {
+                slidesPerView: 4,
+                spaceBetween: 24,
+              },
+            }}
+            loop={reviews.length > 4}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            modules={[FreeMode, Pagination, Autoplay]}
+            className="w-full py-4"
+          >
+            {reviews.map((review, i) => {
+              const userName = `${review?.user?.firstName || "User"} ${review?.user?.lastName || ""}`
+              const avatar =
+                review?.user?.image ||
+                `https://api.dicebear.com/5.x/initials/svg?seed=${encodeURIComponent(userName)}`
+
+              return (
+                <SwiperSlide key={review?._id || i} className="h-auto">
+                  <div className="flex flex-col justify-between gap-3 bg-richblack-800 p-4 sm:p-5 text-[14px] min-h-[190px] h-full text-richblack-25 rounded-xl border border-richblack-700/60 shadow-sm transition-all duration-200 hover:border-richblack-600">
+                    {/* User Info Header */}
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={avatar}
+                        alt={userName}
+                        className="h-10 w-10 rounded-full object-cover shrink-0 border border-richblack-600"
+                      />
+                      <div className="flex flex-col min-w-0 flex-1">
+                        <h1 className="font-semibold text-richblack-5 text-sm truncate">
+                          {userName}
+                        </h1>
+                        <h2 className="text-[12px] font-medium text-richblack-400 truncate">
+                          {review?.course?.courseName || "Course"}
+                        </h2>
+                      </div>
+                    </div>
+
+                    {/* Review Text */}
+                    <p className="font-medium text-richblack-100 text-sm leading-relaxed line-clamp-3">
+                      {review?.review?.split(" ").length > truncateWords
+                        ? `${review?.review.split(" ").slice(0, truncateWords).join(" ")} ...`
+                        : review?.review}
+                    </p>
+
+                    {/* Rating Footer */}
+                    <div className="flex items-center justify-between gap-2 mt-auto pt-2.5 border-t border-richblack-700/60">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-yellow-100 text-sm shrink-0">
+                          {Number(review?.rating || 0).toFixed(1)}
+                        </span>
+                        <RatingStars Review_Count={review?.rating} Star_Size={14} />
+                      </div>
                     </div>
                   </div>
-                  <p className="font-medium text-richblack-25">
-                    {review?.review.split(" ").length > truncateWords
-                      ? `${review?.review
-                        .split(" ")
-                        .slice(0, truncateWords)
-                        .join(" ")} ...`
-                      : `${review?.review}`}
-                  </p>
-                  <div className="flex flex-col items-center gap-1 ">
-
-                    <ReactStars
-                      count={5}
-                      value={review.rating}
-                      size={20}
-                      edit={false}
-                      activeColor="#ffd700"
-                      emptyIcon={<FaStar />}
-                      fullIcon={<FaStar />}
-                    />
-                    <h3 className="font-semibold text-yellow-100">
-                      {review.rating.toFixed(1)}
-                    </h3>
-                  </div>
-                </div>
-              </SwiperSlide>
-            )
-          })}
-        </Swiper>
+                </SwiperSlide>
+              )
+            })}
+          </Swiper>
+        ) : (
+          <p className="text-center text-richblack-300 py-8 text-base">
+            No reviews yet
+          </p>
+        )}
       </div>
     </div>
   )
