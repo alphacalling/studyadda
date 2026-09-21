@@ -29,11 +29,11 @@ function Course_Card({ course, Height }) {
             <p className="text-sm text-richblack-50">
               {course?.instructor?.firstName} {course?.instructor?.lastName}
             </p>
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-5">{avgReviewCount || 0}</span>
-              <RatingStars Review_Count={avgReviewCount} />
+            <div className="flex flex-wrap items-center gap-2 text-sm">
+              <span className="text-yellow-5 font-semibold">{avgReviewCount || 0}</span>
+              <RatingStars Review_Count={avgReviewCount} Star_Size={16} />
               <span className="text-richblack-400">
-                {course?.ratingAndReviews?.length} Ratings
+                ({course?.ratingAndReviews?.length || 0} Ratings)
               </span>
             </div>
             <p className="text-xl text-richblack-5">Rs. {course?.price}</p>

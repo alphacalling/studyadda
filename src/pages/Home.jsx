@@ -183,7 +183,7 @@ function Home() {
         <InstructorSection />
 
         {/* Reviews from Other Learner */}
-        <h1 className="text-center text-4xl font-semibold mt-8">
+        <h1 className="text-center text-2xl sm:text-3xl lg:text-4xl font-semibold mt-8">
           Reviews from other Learners
         </h1>
         <ReviewSlider />
