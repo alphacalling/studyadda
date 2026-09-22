@@ -80,41 +80,68 @@ function Navbar() {
 
         {/* Desktop Navigation links */}
         <nav className="hidden md:block">
-          <ul className="flex gap-x-6 text-richblack-25">
+          <ul className="flex items-center gap-x-6 text-richblack-25">
             {NavbarLinks.map((link, index) => (
-              <li key={index}>
+              <li key={index} className="flex items-center">
                 {link.title === "Catalog" ? (
                   <div
-                    className={`group relative flex cursor-pointer items-center gap-1 ${
+                    className={`group relative flex cursor-pointer items-center gap-1.5 ${
                       matchRoute("/catalog/:catalogName")
                         ? "text-yellow-25"
                         : "text-richblack-25"
                     }`}
                   >
                     <p>{link.title}</p>
-                    <BsChevronDown className="text-xs" />
-                    <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]">
-                      <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
-                      {loading ? (
-                        <p className="text-center">Loading...</p>
-                      ) : subLinks?.length ? (
-                        subLinks
-                          ?.filter((subLink) => subLink?.courses?.length > 0)
-                          ?.map((subLink, i) => (
-                            <Link
-                              to={`/catalog/${subLink.name
-                                .split(" ")
-                                .join("-")
-                                .toLowerCase()}`}
-                              className="rounded-lg bg-transparent py-3 pl-4 hover:bg-richblack-50 text-sm"
-                              key={i}
-                            >
-                              <p>{subLink.name}</p>
-                            </Link>
-                          ))
-                      ) : (
-                        <p className="text-center">No Courses Found</p>
-                      )}
+                    <BsChevronDown className="text-xs transition-transform duration-200 group-hover:rotate-180" />
+
+                    {/* Dropdown Menu Container (pt-3 directly bridges hover gap to top-full) */}
+                    <div className="invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 ease-out absolute left-1/2 -translate-x-1/2 top-full pt-3 z-[1000] w-[260px] lg:w-[290px]">
+                      {/* Dropdown Card */}
+                      <div className="relative rounded-xl border border-richblack-700 bg-richblack-800 p-3 shadow-2xl shadow-black/80 backdrop-blur-md">
+                        {/* Top Indicator Triangle */}
+                        <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 h-3 w-3 rotate-45 border-l border-t border-richblack-700 bg-richblack-800" />
+
+                        {/* Dropdown Header */}
+                        <div className="flex items-center justify-between px-2 pb-2 mb-1.5 border-b border-richblack-700/60">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-richblack-400">
+                            Course Categories
+                          </span>
+                          <span className="text-[11px] font-semibold text-yellow-50 bg-yellow-50/10 px-2 py-0.5 rounded-full">
+                            {subLinks?.length || 0}
+                          </span>
+                        </div>
+
+                        {/* Categories List */}
+                        <div className="max-h-[300px] overflow-y-auto flex flex-col gap-1 pr-1">
+                          {loading ? (
+                            <p className="text-center py-4 text-xs text-richblack-300">
+                              Loading categories...
+                            </p>
+                          ) : subLinks?.length ? (
+                            subLinks.map((subLink, i) => (
+                              <Link
+                                to={`/catalog/${subLink.name
+                                  .split(" ")
+                                  .join("-")
+                                  .toLowerCase()}`}
+                                className="group/item flex items-center justify-between rounded-lg px-3 py-2 text-sm text-richblack-100 hover:text-yellow-50 hover:bg-richblack-700/60 transition-all duration-150"
+                                key={i}
+                              >
+                                <span className="font-medium truncate">
+                                  {subLink.name}
+                                </span>
+                                <span className="text-xs text-richblack-400 group-hover/item:text-yellow-50 group-hover/item:translate-x-0.5 transition-all">
+                                  →
+                                </span>
+                              </Link>
+                            ))
+                          ) : (
+                            <p className="text-center py-4 text-xs text-richblack-400">
+                              No Categories Found
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -137,7 +164,7 @@ function Navbar() {
 
         {/* Desktop Login / Signup / Dashboard */}
         <div className="hidden items-center gap-x-4 md:flex">
-          {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
+          {user && user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <Link to="/dashboard/cart" className="relative p-1">
               <AiOutlineShoppingCart className="text-2xl text-richblack-100 hover:text-yellow-50 transition-colors" />
               {totalItems > 0 && (
@@ -166,7 +193,7 @@ function Navbar() {
 
         {/* Mobile Header Icons (Cart, Profile, Hamburger) */}
         <div className="flex items-center gap-x-3 md:hidden">
-          {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
+          {user && user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <Link to="/dashboard/cart" className="relative p-1">
               <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
               {totalItems > 0 && (
@@ -264,30 +291,29 @@ function Navbar() {
                     </button>
 
                     {isCatalogOpen && (
-                      <div className="pl-4 py-1 flex flex-col gap-1 border-l border-richblack-800 ml-3 mt-1">
+                      <div className="pl-3 py-1.5 flex flex-col gap-1 border-l-2 border-richblack-700 ml-3 my-1 max-h-[220px] overflow-y-auto">
                         {loading ? (
-                          <p className="text-xs text-richblack-400 py-1">
-                            Loading...
+                          <p className="text-xs text-richblack-400 py-1 pl-2">
+                            Loading categories...
                           </p>
                         ) : subLinks?.length ? (
-                          subLinks
-                            ?.filter((subLink) => subLink?.courses?.length > 0)
-                            ?.map((subLink, i) => (
-                              <Link
-                                key={i}
-                                to={`/catalog/${subLink.name
-                                  .split(" ")
-                                  .join("-")
-                                  .toLowerCase()}`}
-                                onClick={() => setIsNavOpen(false)}
-                                className="block py-1.5 px-2 text-xs text-richblack-300 hover:text-yellow-50 transition-colors"
-                              >
-                                {subLink.name}
-                              </Link>
-                            ))
+                          subLinks.map((subLink, i) => (
+                            <Link
+                              key={i}
+                              to={`/catalog/${subLink.name
+                                .split(" ")
+                                .join("-")
+                                .toLowerCase()}`}
+                              onClick={() => setIsNavOpen(false)}
+                              className="flex items-center justify-between py-2 px-2.5 rounded-lg text-xs font-medium text-richblack-200 hover:text-yellow-50 hover:bg-richblack-800/80 transition-all duration-150"
+                            >
+                              <span className="truncate">{subLink.name}</span>
+                              <span className="text-[11px] text-richblack-400">→</span>
+                            </Link>
+                          ))
                         ) : (
-                          <p className="text-xs text-richblack-400 py-1">
-                            No Courses Found
+                          <p className="text-xs text-richblack-400 py-1 pl-2">
+                            No Categories Found
                           </p>
                         )}
                       </div>

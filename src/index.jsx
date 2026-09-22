@@ -19,7 +19,13 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <App />
-        <Toaster />
+        <Toaster
+          position="top-center"
+          gutter={8}
+          containerStyle={{
+            top: 72,
+          }}
+        />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

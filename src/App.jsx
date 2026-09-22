@@ -1,8 +1,6 @@
 import { useEffect } from "react"
 import "./App.css"
-// Redux
 import { useDispatch, useSelector } from "react-redux"
-// React Router
 import { Route, Routes, useNavigate } from "react-router-dom"
 
 // Components
@@ -49,7 +47,7 @@ function App() {
   }, [])
 
   return (
-    <div className="flex min-h-screen w-screen flex-col bg-richblack-900 font-inter">
+    <div className="flex min-h-screen w-full flex-col bg-richblack-900 font-inter">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -108,7 +106,9 @@ function App() {
         >
           {/* Route for all users */}
           <Route path="dashboard/my-profile" element={<MyProfile />} />
-          <Route path="dashboard/Settings" element={<Settings />} />
+          <Route path="dashboard/settings" element={<Settings />} />
+          <Route path="dashboard/cart" element={<Cart />} />
+
           {/* Route only for Instructors */}
           {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
             <>
@@ -128,10 +128,8 @@ function App() {
                 path="dashboard/enrolled-courses"
                 element={<EnrolledCourses />}
               />
-              <Route path="/dashboard/cart" element={<Cart />} />
             </>
           )}
-          <Route path="dashboard/settings" element={<Settings />} />
         </Route>
 
         {/* For the watching course lectures */}

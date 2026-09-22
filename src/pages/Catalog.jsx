@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-
-// import CourseCard from "../components/Catalog/CourseCard"
-// import CourseSlider from "../components/Catalog/CourseSlider"
 import Footer from "../components/Common/Footer"
 import Course_Card from "../components/core/Catalog/Course_Card"
 import Course_Slider from "../components/core/Catalog/Course_Slider"
@@ -23,10 +20,16 @@ function Catalog() {
     ; (async () => {
       try {
         const res = await apiConnector("GET", categories.CATEGORIES_API)
-        const category_id = res?.data?.data?.filter(
-          (ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName
-        )[0]._id
-        setCategoryId(category_id)
+        const matchingCategory = res?.data?.data?.find(
+          (ct) =>
+            ct?.name?.trim()?.split(" ")?.join("-")?.toLowerCase() ===
+            catalogName?.toLowerCase()
+        )
+        if (matchingCategory?._id) {
+          setCategoryId(matchingCategory._id)
+        } else {
+          setCatalogPageData({ success: false })
+        }
       } catch (error) {
         console.log("Could not fetch Categories.", error)
       }

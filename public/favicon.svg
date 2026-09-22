@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <!-- Dark Navy Squircle Background -->
+    <linearGradient id="sqBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#000814"/>
+    </linearGradient>
+
+    <!-- Border Gradient -->
+    <linearGradient id="cBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+
+    <!-- Wings and Accent Gradients -->
+    <linearGradient id="cWingBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+    <linearGradient id="cWingGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="cLightning" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+
+    <style>
+      .badge-rect {
+        fill: url(#sqBg);
+        stroke: url(#cBorder);
+        stroke-width: 2.5px;
+      }
+      .mortarboard-cap {
+        fill: #F8FAFC;
+        stroke: #38BDF8;
+        stroke-width: 2.8px;
+        stroke-linejoin: round;
+      }
+      .cap-arch {
+        fill: none;
+        stroke: #38BDF8;
+        stroke-width: 2.2px;
+        stroke-linecap: round;
+      }
+      .tassel-line {
+        stroke: #F59E0B;
+        stroke-width: 2.2px;
+        stroke-linecap: round;
+      }
+      .tassel-dot {
+        fill: #F59E0B;
+      }
+      .spark-bolt {
+        fill: url(#cLightning);
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        .badge-rect {
+          stroke-width: 3px;
+        }
+        .mortarboard-cap {
+          stroke: #7DD3FC;
+          stroke-width: 3px;
+        }
+        .cap-arch {
+          stroke: #7DD3FC;
+          stroke-width: 2.4px;
+        }
+      }
+    </style>
+  </defs>
+
+  <!-- Squircle Base Container -->
+  <rect class="badge-rect" x="2" y="2" width="60" height="60" rx="14" />
+
+  <!-- Emblem Center -->
+  <g transform="translate(5, 8.5) scale(1.22)">
+    <!-- Book Wings -->
+    <path d="M 21 23 C 14 26 7 24 2.5 21.5 C 2.5 27.5 7.5 31.5 21 33.5 Z" fill="url(#cWingBlue)"/>
+    <path d="M 23 23 C 30 26 37 24 41.5 21.5 C 41.5 27.5 36.5 31.5 23 33.5 Z" fill="url(#cWingGold)"/>
+
+    <!-- Mortarboard Diamond Top -->
+    <path class="mortarboard-cap" d="M 22 5 L 41 13 L 22 21 L 3 13 Z" />
+
+    <!-- Cap Skull Base Arch -->
+    <path class="cap-arch" d="M 10 16.5 L 10 23 C 10 26.5 34 26.5 34 23 L 34 16.5" />
+
+    <!-- Tassel -->
+    <path class="tassel-line" d="M 3 13 L 3 22" />
+    <circle class="tassel-dot" cx="3" cy="23" r="2.2" />
+
+    <!-- Lightning Bolt Energy Spark -->
+    <path class="spark-bolt" d="M 23 6 L 17.5 15.5 L 22 15.5 L 20 23 L 26.5 14 L 22 14 Z" />
+  </g>
+</svg>
