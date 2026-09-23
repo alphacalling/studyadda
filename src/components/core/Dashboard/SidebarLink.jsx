@@ -40,7 +40,7 @@ export default function SidebarLink({ link, iconName, onClick }) {
         }`}
       />
       <div className={`flex items-center ${isCollapsed ? "justify-center" : "gap-x-2.5"} min-w-0`}>
-        {Icon && <Icon className="text-lg shrink-0" />}
+        {Icon && <Icon className="text-base shrink-0" />}
         {!isCollapsed && <span className="truncate">{link.name}</span>}
       </div>
     </NavLink>

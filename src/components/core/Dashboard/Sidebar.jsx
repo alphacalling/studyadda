@@ -89,7 +89,13 @@ export default function Sidebar() {
           {/* Primary Navigation Links */}
           <div className="flex flex-col py-4">
             {sidebarLinks.map((link) => {
-              if (link.type && user?.accountType !== link.type) return null
+              if (link.type) {
+                if (Array.isArray(link.type)) {
+                  if (!link.type.includes(user?.accountType)) return null
+                } else if (user?.accountType !== link.type) {
+                  return null
+                }
+              }
               return (
                 <SidebarLink key={link.id} link={link} iconName={link.icon} />
               )
@@ -123,7 +129,7 @@ export default function Sidebar() {
                 isCollapsed ? "justify-center px-3 py-3" : "px-8 py-2.5 gap-x-2.5"
               } text-sm font-medium text-richblack-300 hover:bg-richblack-700/50 hover:text-pink-200 transition-all duration-150`}
             >
-              <VscSignOut className="text-lg shrink-0" />
+              <VscSignOut className="text-base shrink-0" />
               {!isCollapsed && <span>Logout</span>}
             </button>
           </div>

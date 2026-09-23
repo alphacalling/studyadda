@@ -1,9 +1,9 @@
 const User = require("../models/User");
 const mailSender = require("../utils/mailSender");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 
-
+// reset password token 
 exports.resetPasswordToken = async (req, res) => {
   try {
     const email = req.body.email;
@@ -26,8 +26,8 @@ exports.resetPasswordToken = async (req, res) => {
     )
     console.log("DETAILS", updatedDetails)
 
-    // const url = `http://localhost:3000/update-password/${token}`
-    const url = `https://studyadda-alpha.vercel.app/update-password/${token}`
+    const frontendUrl = process.env.FRONTEND_URL || "https://studyadda-alpha.vercel.app"
+    const url = `${frontendUrl}/update-password/${token}`
 
     await mailSender(
       email,
@@ -49,6 +49,7 @@ exports.resetPasswordToken = async (req, res) => {
   }
 }
 
+// reset password 
 exports.resetPassword = async (req, res) => {
   try {
     const { password, confirmPassword, token } = req.body

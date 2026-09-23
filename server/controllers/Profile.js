@@ -56,9 +56,10 @@ exports.updateProfile = async (req, res) => {
     // Save the updated profile
     await profile.save();
 
-    // Find the updated user details with populated profile
+    // Find the updated user details with populated profile (excluding password)
     const updatedUserDetails = await User.findById(id)
       .populate("additionalDetails")
+      .select("-password")
       .exec();
 
     return res.json({
@@ -120,6 +121,7 @@ exports.getAllUserDetails = async (req, res) => {
     const id = req.user.id
     const userDetails = await User.findById(id)
       .populate("additionalDetails")
+      .select("-password")
       .exec()
     console.log(userDetails)
     res.status(200).json({
@@ -151,7 +153,7 @@ exports.updateDisplayPicture = async (req, res) => {
       { _id: userId },
       { image: image.secure_url },
       { new: true }
-    )
+    ).select("-password")
     res.send({
       success: true,
       message: `Image Updated successfully`,
