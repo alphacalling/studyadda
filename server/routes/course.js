@@ -1,10 +1,6 @@
-// Import the required modules
 const express = require("express")
 const router = express.Router()
 
-// Import the Controllers
-
-// Course Controllers Import
 const {
   createCourse,
   getAllCourses,
@@ -15,30 +11,26 @@ const {
   deleteCourse,
 } = require("../controllers/Course")
 
-// Tags Controllers Import
-
-// Categories Controllers Import
 const {
   showAllCategories,
   createCategory,
   categoryPageDetails,
+  updateCategory,
+  deleteCategory,
 } = require("../controllers/Category")
 
-// Sections Controllers Import
 const {
   createSection,
   updateSection,
   deleteSection,
 } = require("../controllers/Section")
 
-// Sub-Sections Controllers Import
 const {
   createSubSection,
   updateSubSection,
   deleteSubSection,
 } = require("../controllers/Subsection")
 
-// Rating Controllers Import
 const {
   createRating,
   getAverageRating,
@@ -48,8 +40,8 @@ const {
   updateCourseProgress,
   getProgressPercentage,
 } = require("../controllers/courseProgress")
-// Importing Middlewares
-const { auth, isInstructor, isStudent, isAdmin } = require("../middleware/auth")
+const { auth, isInstructor, isStudent, isAdmin, isAdminOrInstructor } = require("../middleware/auth")
+
 
 // ********************************************************************************************************
 //                                      Course routes
@@ -89,9 +81,12 @@ router.delete("/deleteCourse", deleteCourse)
 // ********************************************************************************************************
 //                                      Category routes (Only by Admin)
 // ********************************************************************************************************
-// Category can Only be Created by Admin
-// TODO: Put IsAdmin Middleware here
-router.post("/createCategory", auth, isAdmin, createCategory)
+// Category can be Created, Updated, and Deleted by Admin or Instructor
+router.post("/createCategory", auth, isAdminOrInstructor, createCategory)
+router.post("/updateCategory", auth, isAdminOrInstructor, updateCategory)
+router.put("/updateCategory", auth, isAdminOrInstructor, updateCategory)
+router.post("/deleteCategory", auth, isAdminOrInstructor, deleteCategory)
+router.delete("/deleteCategory", auth, isAdminOrInstructor, deleteCategory)
 router.get("/showAllCategories", showAllCategories)
 router.post("/getCategoryPageDetails", categoryPageDetails)
 

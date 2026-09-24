@@ -15,6 +15,7 @@ import Instructor from "./components/core/Dashboard/Instructor"
 import MyCourses from "./components/core/Dashboard/MyCourses"
 import MyProfile from "./components/core/Dashboard/MyProfile"
 import Settings from "./components/core/Dashboard/Settings"
+import Categories from "./components/core/Dashboard/Categories"
 import VideoDetails from "./components/core/ViewCourse/VideoDetails"
 import About from "./pages/About"
 import Catalog from "./pages/Catalog"
@@ -108,6 +109,12 @@ function App() {
           <Route path="dashboard/my-profile" element={<MyProfile />} />
           <Route path="dashboard/settings" element={<Settings />} />
           <Route path="dashboard/cart" element={<Cart />} />
+
+          {/* Route for Instructors and Admins */}
+          {(user?.accountType === ACCOUNT_TYPE.INSTRUCTOR ||
+            user?.accountType === ACCOUNT_TYPE.ADMIN) && (
+            <Route path="dashboard/categories" element={<Categories />} />
+          )}
 
           {/* Route only for Instructors */}
           {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (

@@ -42,6 +42,9 @@ export const courseEndpoints = {
     BASE_URL + "/course/getFullCourseDetails",
   LECTURE_COMPLETION_API: BASE_URL + "/course/updateCourseProgress",
   CREATE_RATING_API: BASE_URL + "/course/createRating",
+  CREATE_CATEGORY_API: BASE_URL + "/course/createCategory",
+  UPDATE_CATEGORY_API: BASE_URL + "/course/updateCategory",
+  DELETE_CATEGORY_API: BASE_URL + "/course/deleteCategory",
 }
 
 // RATINGS AND REVIEWS
@@ -52,6 +55,9 @@ export const ratingsEndpoints = {
 // CATAGORIES API
 export const categories = {
   CATEGORIES_API: BASE_URL + "/course/showAllCategories",
+  CREATE_CATEGORY_API: BASE_URL + "/course/createCategory",
+  UPDATE_CATEGORY_API: BASE_URL + "/course/updateCategory",
+  DELETE_CATEGORY_API: BASE_URL + "/course/deleteCategory",
 }
 
 // CATALOG PAGE DATA
