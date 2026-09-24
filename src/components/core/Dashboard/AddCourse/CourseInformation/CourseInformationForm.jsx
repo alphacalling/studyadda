@@ -16,6 +16,7 @@ import IconBtn from "../../../../Common/IconBtn"
 import Upload from "../Upload"
 import ChipInput from "./ChipInput"
 import RequirementsField from "./RequirementsField"
+import CreateCategoryModal from "../../Categories/CreateCategoryModal"
 
 export default function CourseInformationForm() {
   const {
@@ -31,6 +32,7 @@ export default function CourseInformationForm() {
   const { course, editCourse } = useSelector((state) => state.course)
   const [loading, setLoading] = useState(false)
   const [courseCategories, setCourseCategories] = useState([])
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false)
 
   useEffect(() => {
     const getCategories = async () => {
@@ -222,9 +224,18 @@ export default function CourseInformationForm() {
       </div>
       {/* Course Category */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="courseCategory">
-          Course Category <sup className="text-pink-200">*</sup>
-        </label>
+        <div className="flex items-center justify-between">
+          <label className="text-sm text-richblack-5" htmlFor="courseCategory">
+            Course Category <sup className="text-pink-200">*</sup>
+          </label>
+          <button
+            type="button"
+            onClick={() => setIsCategoryModalOpen(true)}
+            className="text-xs text-yellow-50 hover:text-yellow-100 hover:underline transition-colors flex items-center gap-1"
+          >
+            + Create New Category
+          </button>
+        </div>
         <select
           {...register("courseCategory", { required: true })}
           defaultValue=""
@@ -310,6 +321,21 @@ export default function CourseInformationForm() {
           <MdNavigateNext />
         </IconBtn>
       </div>
+
+      {/* Category Creation Modal */}
+      <CreateCategoryModal
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
+        onCategoryCreated={async (newCat) => {
+          const updatedCategories = await fetchCourseCategories()
+          if (updatedCategories.length > 0) {
+            setCourseCategories(updatedCategories)
+            if (newCat?._id) {
+              setValue("courseCategory", newCat._id)
+            }
+          }
+        }}
+      />
     </form>
   )
 }
