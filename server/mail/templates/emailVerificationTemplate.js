@@ -54,7 +54,7 @@ const otpTemplate = (otp) => {
 					<tr>
 						<td align="center" style="padding: 32px 24px 20px 24px;">
 							<a href="https://studyadda.codervikas.in" target="_blank" style="text-decoration: none;">
-								<img src="https://i.ibb.co/3mnGMygH/studyadda-universal.png" alt="StudyAdda Logo" width="160" style="max-width: 160px; width: 160px; height: auto; display: block; margin: 0 auto; border: 0;" />
+								<img src="https://res.cloudinary.com/dnxatsrum/image/upload/v1790252476/StudyAdda/Logo/studyadda_universal.png" alt="StudyAdda Logo" width="160" style="max-width: 160px; width: 160px; height: auto; display: block; margin: 0 auto; border: 0;" />
 							</a>
 						</td>
 					</tr>
@@ -98,3 +98,8 @@ const otpTemplate = (otp) => {
 };
 
 module.exports = otpTemplate;
+
+
+
+// gmail based link 
+{/* <img src="https://i.ibb.co/3mnGMygH/studyadda-universal.png" */}
