@@ -12,73 +12,90 @@ import Course_Card from "./Course_Card"
 function Course_Slider({ Courses }) {
   const swiperRef = useRef(null)
 
+  if (!Courses?.length) {
+    return (
+      <div className="flex flex-col items-center justify-center p-6 sm:p-8 bg-richblack-800/50 border border-richblack-700/60 rounded-xl my-4 text-center">
+        <p className="text-base sm:text-lg font-semibold text-richblack-200">
+          No Courses Found in this Category
+        </p>
+        <p className="text-xs sm:text-sm text-richblack-400 mt-1">
+          Check back later or explore our other learning paths.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <>
-      {Courses?.length ? (
-        <div className="relative group/slider w-full">
-          <Swiper
-            onBeforeInit={(swiper) => {
-              swiperRef.current = swiper
-            }}
-            slidesPerView={1}
-            spaceBetween={20}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-            }}
-            breakpoints={{
-              640: {
-                slidesPerView: 2,
-                spaceBetween: 20,
-              },
-              1024: {
-                slidesPerView: 3,
-                spaceBetween: 24,
-              },
-            }}
-            modules={[FreeMode, Pagination, Autoplay]}
-            autoplay={{
-              delay: 3500,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            className="pb-14 pt-2"
-          >
-            {Courses?.map((course, i) => (
-              <SwiperSlide key={course?._id || i} className="h-auto">
-                <Course_Card course={course} Height={"h-[200px]"} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+      {/* Mobile Version: Clean Vertical Stack (No Swiper on mobile) */}
+      <div className="flex flex-col gap-5 sm:hidden w-full pt-1">
+        {Courses.map((course, i) => (
+          <div key={course?._id || i} className="w-full">
+            <Course_Card course={course} Height="h-[185px]" />
+          </div>
+        ))}
+      </div>
 
-          {/* Custom Navigation Arrows */}
-          {Courses.length > 2 && (
-            <>
-              <button
-                onClick={() => swiperRef.current?.slidePrev()}
-                className="absolute -left-3 top-[44%] -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-richblack-800/90 border border-richblack-600 text-richblack-50 flex items-center justify-center hover:bg-yellow-50 hover:text-richblack-900 transition-all shadow-xl hover:scale-110 focus:outline-none backdrop-blur-sm cursor-pointer"
-                aria-label="Previous Course"
-              >
-                <MdChevronLeft size={28} />
-              </button>
-              <button
-                onClick={() => swiperRef.current?.slideNext()}
-                className="absolute -right-3 top-[44%] -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-richblack-800/90 border border-richblack-600 text-richblack-50 flex items-center justify-center hover:bg-yellow-50 hover:text-richblack-900 transition-all shadow-xl hover:scale-110 focus:outline-none backdrop-blur-sm cursor-pointer"
-                aria-label="Next Course"
-              >
-                <MdChevronRight size={28} />
-              </button>
-            </>
-          )}
-        </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center p-8 bg-richblack-800/50 border border-richblack-700/60 rounded-xl my-4 text-center">
-          <p className="text-lg font-semibold text-richblack-200">No Courses Found in this Category</p>
-          <p className="text-sm text-richblack-400 mt-1">Check back later or explore our other learning paths.</p>
-        </div>
-      )}
+      {/* Tablet & Desktop Version: Full Swiper Carousel */}
+      <div className="hidden sm:block relative group/slider w-full">
+        <Swiper
+          onBeforeInit={(swiper) => {
+            swiperRef.current = swiper
+          }}
+          slidesPerView={2}
+          spaceBetween={20}
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+          }}
+          breakpoints={{
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 24,
+            },
+          }}
+          modules={[FreeMode, Pagination, Autoplay]}
+          autoplay={
+            Courses.length > 2
+              ? {
+                  delay: 3500,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: true,
+                }
+              : false
+          }
+          className="pb-14 pt-2"
+        >
+          {Courses.map((course, i) => (
+            <SwiperSlide key={course?._id || i} className="h-auto">
+              <Course_Card course={course} Height="h-[200px]" />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* Custom Navigation Arrows for Desktop */}
+        {Courses.length > 2 && (
+          <>
+            <button
+              onClick={() => swiperRef.current?.slidePrev()}
+              className="absolute -left-3 top-[44%] -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-richblack-800/90 border border-richblack-600 text-richblack-50 flex items-center justify-center hover:bg-yellow-50 hover:text-richblack-900 transition-all shadow-xl hover:scale-110 focus:outline-none backdrop-blur-sm cursor-pointer"
+              aria-label="Previous Course"
+            >
+              <MdChevronLeft size={28} />
+            </button>
+            <button
+              onClick={() => swiperRef.current?.slideNext()}
+              className="absolute -right-3 top-[44%] -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-richblack-800/90 border border-richblack-600 text-richblack-50 flex items-center justify-center hover:bg-yellow-50 hover:text-richblack-900 transition-all shadow-xl hover:scale-110 focus:outline-none backdrop-blur-sm cursor-pointer"
+              aria-label="Next Course"
+            >
+              <MdChevronRight size={28} />
+            </button>
+          </>
+        )}
+      </div>
     </>
   )
 }
 
 export default Course_Slider
+

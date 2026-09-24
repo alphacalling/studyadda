@@ -73,8 +73,8 @@ function Catalog() {
   return (
     <>
       {/* Hero Section */}
-      <div className="box-content bg-gradient-to-b from-richblack-900 via-richblack-800 to-richblack-900 border-b border-richblack-700/60 px-4 py-10 md:py-14">
-        <div className="mx-auto flex min-h-[180px] max-w-maxContentTab flex-col justify-center gap-3.5 lg:max-w-maxContent">
+      <div className="bg-gradient-to-b from-richblack-900 via-richblack-800 to-richblack-900 border-b border-richblack-700/60 px-4 py-8 sm:py-10 md:py-14 w-full">
+        <div className="mx-auto flex min-h-[160px] sm:min-h-[180px] max-w-maxContentTab flex-col justify-center gap-3.5 lg:max-w-maxContent">
           <nav className="flex items-center gap-2 text-sm text-richblack-300">
             <Link to="/" className="hover:text-richblack-100 transition-colors">
               Home
@@ -96,14 +96,14 @@ function Catalog() {
       </div>
 
       {/* Section 1: Selected Category Courses */}
-      <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-10 md:py-14 lg:max-w-maxContent">
+      <div className="mx-auto w-full max-w-maxContentTab px-4 py-8 sm:py-10 md:py-14 lg:max-w-maxContent">
         <div className="section_heading">Courses to get you started</div>
         
         {/* Tabs */}
-        <div className="my-6 flex border-b border-b-richblack-700 text-sm gap-2">
+        <div className="my-4 sm:my-6 flex border-b border-b-richblack-700 overflow-x-auto no-scrollbar whitespace-nowrap text-sm gap-2">
           <button
             type="button"
-            className={`px-5 py-2.5 font-medium transition-all cursor-pointer ${
+            className={`px-4 sm:px-5 py-2 sm:py-2.5 font-medium transition-all cursor-pointer shrink-0 ${
               active === 1
                 ? "border-b-2 border-yellow-50 text-yellow-50 font-semibold"
                 : "text-richblack-300 hover:text-richblack-50"
@@ -114,7 +114,7 @@ function Catalog() {
           </button>
           <button
             type="button"
-            className={`px-5 py-2.5 font-medium transition-all cursor-pointer ${
+            className={`px-4 sm:px-5 py-2 sm:py-2.5 font-medium transition-all cursor-pointer shrink-0 ${
               active === 2
                 ? "border-b-2 border-yellow-50 text-yellow-50 font-semibold"
                 : "text-richblack-300 hover:text-richblack-50"
@@ -132,7 +132,7 @@ function Catalog() {
 
       {/* Section 2: Different Category Courses (if available) */}
       {catalogPageData?.data?.differentCategory?.courses?.length > 0 && (
-        <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-10 md:py-14 lg:max-w-maxContent border-t border-richblack-800">
+        <div className="mx-auto w-full max-w-maxContentTab px-4 py-8 sm:py-10 md:py-14 lg:max-w-maxContent border-t border-richblack-800">
           <div className="section_heading">
             Top courses in {catalogPageData?.data?.differentCategory?.name}
           </div>
@@ -146,7 +146,7 @@ function Catalog() {
 
       {/* Section 3: Frequently Bought Courses (if available) */}
       {catalogPageData?.data?.mostSellingCourses?.length > 0 && (
-        <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-10 md:py-14 lg:max-w-maxContent border-t border-richblack-800">
+        <div className="mx-auto w-full max-w-maxContentTab px-4 py-8 sm:py-10 md:py-14 lg:max-w-maxContent border-t border-richblack-800">
           <div className="section_heading">Frequently Bought Courses</div>
           <div className="pt-6">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
