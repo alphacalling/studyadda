@@ -1,74 +1,89 @@
 exports.passwordUpdated = (email, name) => {
     return `<!DOCTYPE html>
-    <html>
-    
-    <head>
-        <meta charset="UTF-8">
-        <title>Password Update Confirmation</title>
-        <style>
-            body {
-                background-color: #ffffff;
-                font-family: Arial, sans-serif;
-                font-size: 16px;
-                line-height: 1.4;
-                color: #333333;
-                margin: 0;
-                padding: 0;
-            }
-    
-    
-            .container {
-                max-width: 600px;
-                margin: 0 auto;
-                padding: 20px;
-                text-align: center;
-            }
-    
-            .logo {
-                max-width: 200px;
-                margin-bottom: 20px;
-            }
-    
-            .message {
-                font-size: 18px;
-                font-weight: bold;
-                margin-bottom: 20px;
-            }
-    
-            .body {
-                font-size: 16px;
-                margin-bottom: 20px;
-            }
-    
-            .support {
-                font-size: 14px;
-                color: #999999;
-                margin-top: 20px;
-            }
-    
-            .highlight {
-                font-weight: bold;
-            }
-        </style>
-    
-    </head>
-    
-    <body>
-        <div class="container">
-            <a href="https://studyadda-alpha.vercel.app"><img src="https://i.ibb.co/TBvg0dK/Study-Adda.png" alt="Study-Adda Logo"></a>
-            <div class="message">Password Update Confirmation</div>
-            <div class="body">
-                <p>Hey ${name},</p>
-                <p>Your password has been successfully updated for the email <span class="highlight">${email}</span>.
-                </p>
-                <p>If you did not request this password change, please contact us immediately to secure your account.</p>
-            </div>
-            <div class="support">If you have any questions or need further assistance, please feel free to reach out to us
-                at
-                <a href="mailto:info@studyadda.com">info@studyadda.com</a>. We are here to help!
-            </div>
-        </div>
-    </body>
-    
-    </html>`;
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Password Update Confirmation - StudyAdda</title>
+    <style>
+        body {
+            background-color: #f4f6f8;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        table {
+            border-collapse: collapse;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+        }
+    </style>
+</head>
+
+<body style="margin: 0; padding: 0; background-color: #f4f6f8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #333333;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f4f6f8; width: 100%; margin: 0; padding: 30px 12px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width: 540px; background-color: #ffffff; border-radius: 10px; border: 1px solid #e5e7eb; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); text-align: center;">
+                    <!-- Logo Header -->
+                    <tr>
+                        <td align="center" style="padding: 32px 24px 20px 24px;">
+                            <a href="https://studyadda.codervikas.in" target="_blank" style="text-decoration: none;">
+                                <img src="https://i.ibb.co/3mnGMygH/studyadda-universal.png" alt="StudyAdda Logo" width="160" style="max-width: 160px; width: 160px; height: auto; display: block; margin: 0 auto; border: 0;" />
+                            </a>
+                        </td>
+                    </tr>
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 0 32px 28px 32px; text-align: center;">
+                            <h1 style="font-size: 20px; font-weight: 700; color: #111827; margin: 0 0 16px 0;">Password Updated Successfully</h1>
+                            <p style="font-size: 15px; line-height: 1.6; color: #4b5563; margin: 0 0 16px 0;">
+                                Hey <strong>${name}</strong>,
+                            </p>
+                            <p style="font-size: 15px; line-height: 1.6; color: #4b5563; margin: 0 0 20px 0;">
+                                Your account password has been successfully updated for:
+                            </p>
+                            <!-- Email Badge -->
+                            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 20px; margin: 0 auto 24px auto; display: inline-block;">
+                                <span style="font-size: 15px; font-weight: 600; color: #0f172a;">${email}</span>
+                            </div>
+
+                            <!-- Security Warning Box -->
+                            <div style="background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 14px 18px; margin: 0 auto 20px auto; text-align: left;">
+                                <p style="font-size: 13px; line-height: 1.5; color: #991b1b; margin: 0;">
+                                    <strong>Important Security Notice:</strong> If you did not make this change, please contact us immediately to protect and recover your account.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Footer / Support -->
+                    <tr>
+                        <td style="padding: 20px 24px; background-color: #f9fafb; border-top: 1px solid #e5e7eb; text-align: center;">
+                            <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.5;">
+                                If you have any questions or need further assistance, reach out to us at <a href="mailto:studyadda.alpha@gmail.com" style="color: #2563eb; text-decoration: none; font-weight: 500;">studyadda.alpha@gmail.com</a>. We are here to help!
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>`;
 };

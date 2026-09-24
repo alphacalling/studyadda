@@ -22,6 +22,9 @@ const {
   GET_FULL_COURSE_DETAILS_AUTHENTICATED,
   CREATE_RATING_API,
   LECTURE_COMPLETION_API,
+  CREATE_CATEGORY_API,
+  UPDATE_CATEGORY_API,
+  DELETE_CATEGORY_API,
 } = courseEndpoints
 
 export const getAllCourses = async () => {
@@ -79,6 +82,72 @@ export const fetchCourseCategories = async () => {
     console.log("COURSE_CATEGORY_API API ERROR............", error)
     toast.error(error.message)
   }
+  return result
+}
+
+// create a new course category
+export const createCategory = async (data, token) => {
+  let result = null
+  const toastId = toast.loading("Creating category...")
+  try {
+    const response = await apiConnector("POST", CREATE_CATEGORY_API, data, {
+      Authorization: `Bearer ${token}`,
+    })
+    console.log("CREATE_CATEGORY_API RESPONSE............", response)
+    if (!response?.data?.success) {
+      throw new Error(response?.data?.message || "Could Not Create Category")
+    }
+    toast.success("Category Created Successfully")
+    result = response?.data?.data || response?.data
+  } catch (error) {
+    console.log("CREATE_CATEGORY_API ERROR............", error)
+    toast.error(error?.response?.data?.message || error.message || "Failed to create category")
+  }
+  toast.dismiss(toastId)
+  return result
+}
+
+// update a course category
+export const updateCategory = async (data, token) => {
+  let result = null
+  const toastId = toast.loading("Updating category...")
+  try {
+    const response = await apiConnector("POST", UPDATE_CATEGORY_API, data, {
+      Authorization: `Bearer ${token}`,
+    })
+    console.log("UPDATE_CATEGORY_API RESPONSE............", response)
+    if (!response?.data?.success) {
+      throw new Error(response?.data?.message || "Could Not Update Category")
+    }
+    toast.success("Category Updated Successfully")
+    result = response?.data?.data || response?.data
+  } catch (error) {
+    console.log("UPDATE_CATEGORY_API ERROR............", error)
+    toast.error(error?.response?.data?.message || error.message || "Failed to update category")
+  }
+  toast.dismiss(toastId)
+  return result
+}
+
+// delete a course category
+export const deleteCategory = async (data, token) => {
+  let result = null
+  const toastId = toast.loading("Deleting category...")
+  try {
+    const response = await apiConnector("POST", DELETE_CATEGORY_API, data, {
+      Authorization: `Bearer ${token}`,
+    })
+    console.log("DELETE_CATEGORY_API RESPONSE............", response)
+    if (!response?.data?.success) {
+      throw new Error(response?.data?.message || "Could Not Delete Category")
+    }
+    toast.success("Category Deleted Successfully")
+    result = response?.data
+  } catch (error) {
+    console.log("DELETE_CATEGORY_API ERROR............", error)
+    toast.error(error?.response?.data?.message || error.message || "Failed to delete category")
+  }
+  toast.dismiss(toastId)
   return result
 }
 

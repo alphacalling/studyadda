@@ -1,4 +1,4 @@
-exports.courseEnrollmentEmail = (courseName, name) => {
+exports.passwordResetEmail = (resetUrl, name) => {
     return `<!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +6,7 @@ exports.courseEnrollmentEmail = (courseName, name) => {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Course Registration Confirmation - StudyAdda</title>
+    <title>Reset Your Password - StudyAdda</title>
     <style>
         body {
             background-color: #f4f6f8;
@@ -34,7 +34,7 @@ exports.courseEnrollmentEmail = (courseName, name) => {
         }
         .cta {
             display: inline-block;
-            padding: 12px 28px;
+            padding: 13px 30px;
             background-color: #FFD60A;
             color: #000000 !important;
             text-decoration: none;
@@ -61,23 +61,24 @@ exports.courseEnrollmentEmail = (courseName, name) => {
                     <!-- Content -->
                     <tr>
                         <td style="padding: 0 32px 28px 32px; text-align: center;">
-                            <h1 style="font-size: 20px; font-weight: 700; color: #111827; margin: 0 0 16px 0;">Course Registration Confirmation</h1>
+                            <h1 style="font-size: 20px; font-weight: 700; color: #111827; margin: 0 0 16px 0;">Reset Your Password</h1>
                             <p style="font-size: 15px; line-height: 1.6; color: #4b5563; margin: 0 0 16px 0;">
-                                Dear <strong>${name}</strong>,
+                                Hello <strong>${name || "User"}</strong>,
                             </p>
-                            <p style="font-size: 15px; line-height: 1.6; color: #4b5563; margin: 0 0 20px 0;">
-                                You have successfully registered for the course:
-                            </p>
-                            <!-- Course Highlight Box -->
-                            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 20px; margin: 0 auto 24px auto;">
-                                <span style="font-size: 17px; font-weight: 700; color: #0f172a;">"${courseName}"</span>
-                            </div>
                             <p style="font-size: 15px; line-height: 1.6; color: #4b5563; margin: 0 0 24px 0;">
-                                We are thrilled to have you! Please log in to your learning dashboard to access your course materials, video lectures, and track your progress.
+                                We received a request to reset the password for your <strong>StudyAdda</strong> account. Click the button below to choose a new password:
                             </p>
                             <!-- CTA Button -->
                             <div style="margin: 24px 0;">
-                                <a class="cta" href="https://studyadda.codervikas.in/dashboard" target="_blank" style="display: inline-block; padding: 12px 28px; background-color: #FFD60A; color: #000000; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: 700;">Go to Dashboard</a>
+                                <a class="cta" href="${resetUrl}" target="_blank" style="display: inline-block; padding: 13px 30px; background-color: #FFD60A; color: #000000; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: 700;">Reset Password</a>
+                            </div>
+                            <p style="font-size: 13px; line-height: 1.6; color: #6b7280; margin: 0 0 16px 0;">
+                                This link is valid for <strong>1 hour</strong>. If you did not request a password reset, you can safely ignore this email — your password will not change.
+                            </p>
+                            <!-- Fallback Link -->
+                            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 16px; margin: 20px 0 0 0; word-break: break-all; text-align: left;">
+                                <p style="font-size: 12px; color: #64748b; margin: 0 0 6px 0;">If the button above does not work, copy and paste this URL into your browser:</p>
+                                <a href="${resetUrl}" target="_blank" style="font-size: 12px; color: #2563eb; text-decoration: underline; word-break: break-all;">${resetUrl}</a>
                             </div>
                         </td>
                     </tr>
@@ -85,7 +86,7 @@ exports.courseEnrollmentEmail = (courseName, name) => {
                     <tr>
                         <td style="padding: 20px 24px; background-color: #f9fafb; border-top: 1px solid #e5e7eb; text-align: center;">
                             <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.5;">
-                                If you have any questions or need assistance, reach out to us at <a href="mailto:studyadda.alpha@gmail.com" style="color: #2563eb; text-decoration: none; font-weight: 500;">studyadda.alpha@gmail.com</a>. We are here to help!
+                                If you need assistance, reach out to us at <a href="mailto:studyadda.alpha@gmail.com" style="color: #2563eb; text-decoration: none; font-weight: 500;">studyadda.alpha@gmail.com</a>.
                             </p>
                         </td>
                     </tr>

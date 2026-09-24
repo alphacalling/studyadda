@@ -220,20 +220,23 @@ details > summary::-webkit-details-marker {
 }
 
 /* Swiper CSS Starts */
-/* .swiper {
-  max-width: 1200px;
-  width: 91.66%;
-  height: 185px;
-  margin: 50px 0px;
-} */
-
 .swiper-slide {
   width: 100%;
   height: 100%;
 }
-/* .swiper-slide {
-  @apply bg-richblack-800 text-richblack-25 p-3 text-[14px];
-} */
+
+.swiper-pagination-bullet {
+  background: #9ca3af !important;
+  opacity: 0.4 !important;
+  transition: all 0.3s ease !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #FFD60A !important;
+  opacity: 1 !important;
+  width: 22px !important;
+  border-radius: 9999px !important;
+}
 /* Swiper CSS Ends */
 
 .blackButton {

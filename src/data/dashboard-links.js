@@ -29,6 +29,13 @@ export const sidebarLinks = [
     icon: "VscAdd",
   },
   {
+    id: 6,
+    name: "Categories",
+    path: "/dashboard/categories",
+    type: [ACCOUNT_TYPE.INSTRUCTOR, ACCOUNT_TYPE.ADMIN],
+    icon: "VscLayers",
+  },
+  {
     id: 5,
     name: "Enrolled Courses",
     path: "/dashboard/enrolled-courses",

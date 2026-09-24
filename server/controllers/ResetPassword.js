@@ -1,9 +1,10 @@
 const User = require("../models/User");
-const mailSender = require("../utils/mailSender");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const mailSender = require("../utils/mailSender");
+const { passwordResetEmail } = require("../mail/templates/passwordResetEmail");
 
-
+// reset password token 
 exports.resetPasswordToken = async (req, res) => {
   try {
     const email = req.body.email;
@@ -26,13 +27,13 @@ exports.resetPasswordToken = async (req, res) => {
     )
     console.log("DETAILS", updatedDetails)
 
-    // const url = `http://localhost:3000/update-password/${token}`
-    const url = `https://studyadda-alpha.vercel.app/update-password/${token}`
+    const frontendUrl = process.env.FRONTEND_URL || "https://studyadda.codervikas.in"
+    const url = `${frontendUrl}/update-password/${token}`
 
     await mailSender(
       email,
-      "Password Reset",
-      `Your Link for email verification is ${url}. Please click this url to reset your password.`
+      "Password Reset - StudyAdda",
+      passwordResetEmail(url, user.firstName)
     )
 
     res.json({
@@ -49,6 +50,7 @@ exports.resetPasswordToken = async (req, res) => {
   }
 }
 
+// reset password 
 exports.resetPassword = async (req, res) => {
   try {
     const { password, confirmPassword, token } = req.body

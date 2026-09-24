@@ -28,7 +28,7 @@ function Navbar() {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false)
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       setLoading(true)
       try {
         const res = await apiConnector("GET", categories.CATEGORIES_API)
@@ -64,9 +64,8 @@ function Navbar() {
 
   return (
     <div
-      className={`flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 ${
-        location.pathname !== "/" ? "bg-richblack-800" : "bg-richblack-900"
-      } transition-all duration-200 sticky top-0 z-40`}
+      className={`flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 ${location.pathname !== "/" ? "bg-richblack-800" : "bg-richblack-900"
+        } transition-all duration-200 sticky top-0 z-40`}
     >
       <div className="flex w-11/12 max-w-maxContent items-center justify-between">
         {/* Logo */}
@@ -85,11 +84,10 @@ function Navbar() {
               <li key={index} className="flex items-center">
                 {link.title === "Catalog" ? (
                   <div
-                    className={`group relative flex cursor-pointer items-center gap-1.5 ${
-                      matchRoute("/catalog/:catalogName")
-                        ? "text-yellow-25"
-                        : "text-richblack-25"
-                    }`}
+                    className={`group relative flex cursor-pointer items-center gap-1.5 ${matchRoute("/catalog/:catalogName")
+                      ? "text-yellow-25"
+                      : "text-richblack-25"
+                      }`}
                   >
                     <p>{link.title}</p>
                     <BsChevronDown className="text-xs transition-transform duration-200 group-hover:rotate-180" />
@@ -147,11 +145,10 @@ function Navbar() {
                 ) : (
                   <Link to={link?.path}>
                     <p
-                      className={`${
-                        matchRoute(link?.path)
-                          ? "text-yellow-25"
-                          : "text-richblack-25"
-                      } hover:text-yellow-25 transition-colors duration-200`}
+                      className={`${matchRoute(link?.path)
+                        ? "text-yellow-25"
+                        : "text-richblack-25"
+                        } hover:text-yellow-25 transition-colors duration-200`}
                     >
                       {link.title}
                     </p>
@@ -266,11 +263,10 @@ function Navbar() {
                     <Link
                       to="/"
                       onClick={() => setIsNavOpen(false)}
-                      className={`block py-2.5 px-3 rounded-lg text-sm transition-colors ${
-                        matchRoute("/")
-                          ? "bg-richblack-800 text-yellow-50 font-semibold"
-                          : "hover:bg-richblack-800/60 hover:text-richblack-25"
-                      }`}
+                      className={`block py-2.5 px-3 rounded-lg text-sm transition-colors ${matchRoute("/")
+                        ? "bg-richblack-800 text-yellow-50 font-semibold"
+                        : "hover:bg-richblack-800/60 hover:text-richblack-25"
+                        }`}
                     >
                       Home
                     </Link>
@@ -284,9 +280,8 @@ function Navbar() {
                     >
                       <span>Catalog</span>
                       <BsChevronDown
-                        className={`text-xs transition-transform duration-200 ${
-                          isCatalogOpen ? "rotate-180" : ""
-                        }`}
+                        className={`text-xs transition-transform duration-200 ${isCatalogOpen ? "rotate-180" : ""
+                          }`}
                       />
                     </button>
 
@@ -324,11 +319,10 @@ function Navbar() {
                     <Link
                       to="/about"
                       onClick={() => setIsNavOpen(false)}
-                      className={`block py-2.5 px-3 rounded-lg text-sm transition-colors ${
-                        matchRoute("/about")
-                          ? "bg-richblack-800 text-yellow-50 font-semibold"
-                          : "hover:bg-richblack-800/60 hover:text-richblack-25"
-                      }`}
+                      className={`block py-2.5 px-3 rounded-lg text-sm transition-colors ${matchRoute("/about")
+                        ? "bg-richblack-800 text-yellow-50 font-semibold"
+                        : "hover:bg-richblack-800/60 hover:text-richblack-25"
+                        }`}
                     >
                       About Us
                     </Link>
@@ -338,11 +332,10 @@ function Navbar() {
                     <Link
                       to="/contact"
                       onClick={() => setIsNavOpen(false)}
-                      className={`block py-2.5 px-3 rounded-lg text-sm transition-colors ${
-                        matchRoute("/contact")
-                          ? "bg-richblack-800 text-yellow-50 font-semibold"
-                          : "hover:bg-richblack-800/60 hover:text-richblack-25"
-                      }`}
+                      className={`block py-2.5 px-3 rounded-lg text-sm transition-colors ${matchRoute("/contact")
+                        ? "bg-richblack-800 text-yellow-50 font-semibold"
+                        : "hover:bg-richblack-800/60 hover:text-richblack-25"
+                        }`}
                     >
                       Contact Us
                     </Link>
