@@ -1,5 +1,5 @@
 import { toast } from "react-hot-toast"
-import { apiConnector } from "../apiconnector"
+import { apiConnector } from "../apiConnector"
 import { adminEndpoints } from "../apis"
 
 const { ADMIN_SEARCH_USER_API, ADMIN_SET_TEMP_PASSWORD_API } = adminEndpoints
