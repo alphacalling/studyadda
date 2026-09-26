@@ -12,6 +12,7 @@ const {
   LOGIN_API,
   RESETPASSTOKEN_API,
   RESETPASSWORD_API,
+  FORCE_CHANGE_PASSWORD_API,
 } = endpoints
 
 export function sendOtp(email, navigate) {
@@ -179,5 +180,46 @@ export function logout(navigate) {
     localStorage.removeItem("user")
     toast.success("Logged Out")
     navigate("/")
+  }
+}
+
+export function forceChangePassword(newPassword, confirmNewPassword, token, navigate) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Updating password...")
+    dispatch(setLoading(true))
+    try {
+      const response = await apiConnector(
+        "POST",
+        FORCE_CHANGE_PASSWORD_API,
+        {
+          newPassword,
+          confirmNewPassword,
+        },
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      )
+
+      if (!response.data.success) {
+        throw new Error(response.data.message)
+      }
+
+      toast.success("Permanent password set successfully!")
+      const updatedUser = response.data.user
+      dispatch(setUser(updatedUser))
+      localStorage.setItem("user", JSON.stringify(updatedUser))
+      if (navigate) {
+        navigate("/dashboard/my-profile")
+      }
+    } catch (error) {
+      console.error("FORCE_CHANGE_PASSWORD_API ERROR............", error)
+      toast.error(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to set new password"
+      )
+    }
+    toast.dismiss(toastId)
+    dispatch(setLoading(false))
   }
 }

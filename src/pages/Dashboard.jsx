@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Outlet, useLocation } from "react-router-dom"
 
 import Sidebar from "../components/core/Dashboard/Sidebar"
+import ForceChangePasswordModal from "../components/core/Dashboard/ForceChangePasswordModal"
 import { setSidebarOpen, toggleSidebar } from "../slices/sidebarSlice"
 
 function Dashboard() {
@@ -69,6 +70,9 @@ function Dashboard() {
           <Outlet />
         </main>
       </div>
+
+      {/* Force Change Password Modal (Locks dashboard when logged in with temporary password) */}
+      {user?.mustChangePassword && <ForceChangePasswordModal />}
     </div>
   )
 }

@@ -8,7 +8,7 @@ const { passwordUpdated } = require("../mail/templates/passwordUpdate")
 const Profile = require("../models/Profile")
 require("dotenv").config()
 
-// Signup Controller for Registering USers
+//* Signup Controller for Registering USers
 exports.signup = async (req, res) => {
   try {
     const {
@@ -34,7 +34,6 @@ exports.signup = async (req, res) => {
         message: "All Fields are required",
       })
     }
-    // Check if password and confirm password match
     if (password !== confirmPassword) {
       return res.status(400).json({
         success: false,
@@ -43,7 +42,6 @@ exports.signup = async (req, res) => {
       })
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email })
     if (existingUser) {
       return res.status(400).json({
@@ -56,7 +54,6 @@ exports.signup = async (req, res) => {
     const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1)
     console.log(response)
     if (response.length === 0) {
-      // OTP not found for the email
       return res.status(400).json({
         success: false,
         message: "The OTP is not valid",
@@ -68,7 +65,6 @@ exports.signup = async (req, res) => {
       })
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10)
 
     // Create the user
@@ -112,24 +108,18 @@ exports.signup = async (req, res) => {
   }
 }
 
-// Login controller for authenticating users
+//* Login controller for authenticating users
 exports.login = async (req, res) => {
   try {
-    // Get email and password from request body
     const { email, password } = req.body
-
-    // Check if email or password is missing
     if (!email || !password) {
       return res.status(400).json({
         success: false,
         message: `Please Fill up All the Required Fields`,
       })
     }
-
-    // Find user with provided email
     const user = await User.findOne({ email }).populate("additionalDetails")
 
-    // If user not found with provided email
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -137,7 +127,6 @@ exports.login = async (req, res) => {
       })
     }
 
-    // Generate JWT token and Compare Password
     if (await bcrypt.compare(password, user.password)) {
       const token = jwt.sign(
         {
@@ -225,13 +214,10 @@ exports.sendotp = async (req, res) => {
   }
 }
 
-// Controller for Changing Password
+//* Controller for Changing Password
 exports.changePassword = async (req, res) => {
   try {
-    // Get user data from req.user
     const userDetails = await User.findById(req.user.id)
-
-    // Get old password, new password, and confirm new password from req.body
     const { oldPassword, newPassword } = req.body
 
     // Validate old password
@@ -249,7 +235,7 @@ exports.changePassword = async (req, res) => {
     const encryptedPassword = await bcrypt.hash(newPassword, 10)
     const updatedUserDetails = await User.findByIdAndUpdate(
       req.user.id,
-      { password: encryptedPassword },
+      { password: encryptedPassword, mustChangePassword: false },
       { new: true }
     )
 
@@ -263,7 +249,7 @@ exports.changePassword = async (req, res) => {
           `Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
         )
       )
-      console.log("Email sent successfully:", emailResponse.response)
+      console.log("Email sent successfully:", emailResponse?.response || "OK")
     } catch (error) {
       console.error("Error occurred while sending email:", error)
       return res.status(500).json({
@@ -273,7 +259,6 @@ exports.changePassword = async (req, res) => {
       })
     }
 
-    // Return success response
     return res
       .status(200)
       .json({ success: true, message: "Password updated successfully" })
@@ -282,6 +267,82 @@ exports.changePassword = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Error occurred while updating password",
+      error: error.message,
+    })
+  }
+}
+
+//* Controller for Forced Password Change
+exports.forceChangePassword = async (req, res) => {
+  try {
+    const { newPassword, confirmNewPassword } = req.body
+
+    if (!newPassword || !confirmNewPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Please fill in all fields",
+      })
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Passwords do not match",
+      })
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters long",
+      })
+    }
+
+    const userDetails = await User.findById(req.user.id)
+    if (!userDetails) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      })
+    }
+
+    const encryptedPassword = await bcrypt.hash(newPassword, 10)
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        password: encryptedPassword,
+        mustChangePassword: false,
+      },
+      { new: true }
+    ).populate("additionalDetails")
+
+    const userResponse = updatedUser.toObject()
+    delete userResponse.password
+
+    // Send confirmation email
+    try {
+      await mailSender(
+        updatedUser.email,
+        "Password Updated Successfully - StudyAdda",
+        passwordUpdated(
+          updatedUser.email,
+          `Password updated successfully for ${updatedUser.firstName} ${updatedUser.lastName}`
+        )
+      )
+    } catch (mailErr) {
+      console.error("Error sending password update email:", mailErr.message)
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Permanent password set successfully",
+      user: userResponse,
+    })
+  } catch (error) {
+    console.error("Error in forceChangePassword:", error)
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update password. Please try again.",
       error: error.message,
     })
   }

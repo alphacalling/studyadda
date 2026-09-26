@@ -49,4 +49,11 @@ export const sidebarLinks = [
     type: ACCOUNT_TYPE.STUDENT,
     icon: "VscArchive",
   },
+  {
+    id: 8,
+    name: "Reset User Password",
+    path: "/dashboard/admin-password-reset",
+    type: ACCOUNT_TYPE.ADMIN,
+    icon: "VscKey",
+  },
 ]

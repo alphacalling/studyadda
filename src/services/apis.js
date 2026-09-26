@@ -7,6 +7,13 @@ export const endpoints = {
   LOGIN_API: BASE_URL + "/auth/login",
   RESETPASSTOKEN_API: BASE_URL + "/auth/reset-password-token",
   RESETPASSWORD_API: BASE_URL + "/auth/reset-password",
+  FORCE_CHANGE_PASSWORD_API: BASE_URL + "/auth/force-change-password",
+}
+
+// ADMIN ENDPOINTS
+export const adminEndpoints = {
+  ADMIN_SEARCH_USER_API: BASE_URL + "/auth/admin/search-user",
+  ADMIN_SET_TEMP_PASSWORD_API: BASE_URL + "/auth/admin/set-temp-password",
 }
 
 // PROFILE ENDPOINTS

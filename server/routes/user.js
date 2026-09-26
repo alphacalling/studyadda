@@ -1,23 +1,22 @@
-// Import the required modules
 const express = require("express")
 const router = express.Router()
 
-// Import the required controllers and middleware functions
 const {
   login,
   signup,
   sendotp,
   changePassword,
+  forceChangePassword,
 } = require("../controllers/Auth")
 
 const {
   resetPasswordToken,
   resetPassword,
-} = require("../controllers/ResetPassword");
+  adminSearchUser,
+  adminSetTempPassword,
+} = require("../controllers/ResetPassword")
 
-const { auth } = require("../middleware/auth")
-
-// Routes for Login, Signup, and Authentication
+const { auth, isAdmin } = require("../middleware/auth")
 
 // ********************************************************************************************************
 //                                      Authentication routes
@@ -35,6 +34,9 @@ router.post("/sendotp", sendotp)
 // Route for Changing the password
 router.post("/changepassword", auth, changePassword)
 
+// Route for forced password change when user has a temporary password
+router.post("/force-change-password", auth, forceChangePassword)
+
 // ********************************************************************************************************
 //                                      Reset Password
 // ********************************************************************************************************
@@ -45,5 +47,15 @@ router.post("/reset-password-token", resetPasswordToken)
 // Route for resetting user's password after verification
 router.post("/reset-password", resetPassword)
 
-// Export the router for use in the main application
+// ********************************************************************************************************
+//                                      Admin Password Management
+// ********************************************************************************************************
+
+// Admin searches user by email
+router.post("/admin/search-user", auth, isAdmin, adminSearchUser)
+
+// Admin sets temporary password for a student or instructor
+router.post("/admin/set-temp-password", auth, isAdmin, adminSetTempPassword)
+
+
 module.exports = router
