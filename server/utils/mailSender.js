@@ -1,4 +1,9 @@
 const mailSender = async (email, title, body) => {
+  if (!email) {
+    console.error("mailSender error: Recipient email is missing or undefined.");
+    return null;
+  }
+
   try {
     const response = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
@@ -33,6 +38,10 @@ const mailSender = async (email, title, body) => {
 }
 
 module.exports = mailSender
+
+
+
+
 
 
 //----------------------- working code but not in render like platform -----------------
